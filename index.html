@@ -98,7 +98,8 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("date").value = formatDateToYMD(new Date());
+      const today = new Date();
+      document.getElementById("date").value = formatDateToYMD(today);
     });
 
     document.getElementById("rentForm").addEventListener("submit", function (e) {
@@ -115,6 +116,7 @@
           "コピーに失敗しました。手動でコピーしてください。";
         console.error(err);
       });
+    });
   </script>
 </body>
 </html>
