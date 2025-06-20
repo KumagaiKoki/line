@@ -109,8 +109,8 @@
       const message = `${date}, ${amount}, 家賃`;
 
       navigator.clipboard.writeText(message).then(() => {
-        document.getElementById("copyStatus").textContent =
-          "コピーしました。\nチャット欄に貼り付けて送信してください。";
+        document.getElementById("copyStatus").innerHTML =
+          "コピーしました。<br>チャット欄に貼り付けて送信してください。";
       }).catch(err => {
         document.getElementById("copyStatus").textContent =
           "コピーに失敗しました。";
