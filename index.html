@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <title>家賃入力</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script src="./liff-config.js?ver=20250621"></script> <!-- キャッシュ防止 -->
   <style>
     :root {
       --main-color: #06c755;
@@ -72,10 +74,17 @@
   <form id="rentForm">
     <label>入力日</label>
     <input type="text" id="date" readonly>
-    
+
     <label>金額(円)</label>
-    <input type="number" inputmode="numeric" pattern="\d*" id="amount" required placeholder="例: 1234">
-    
+    <input
+      type="number"
+      inputmode="numeric"
+      pattern="\d*"
+      id="amount"
+      required
+      placeholder="例: 1234"
+    />
+
     <button type="submit">コピー</button>
     <div id="copyStatus"></div>
   </form>
@@ -89,8 +98,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      const today = new Date();
-      document.getElementById("date").value = formatDateToYMD(today);
+      document.getElementById("date").value = formatDateToYMD(new Date());
     });
 
     document.getElementById("rentForm").addEventListener("submit", function (e) {
@@ -100,12 +108,10 @@
       const message = `${date}, ${amount}, 家賃`;
 
       navigator.clipboard.writeText(message).then(() => {
-        document.getElementById("copyStatus").textContent = "コピーしました。チャット欄に貼り付けて送信してください。";
+        document.getElementById("copyStatus").textContent =
+          "コピーしました。チャット欄に貼り付けて送信してください。";
       }).catch(err => {
-        document.getElementById("copyStatus").textContent = "コピーに失敗しました。手動でコピーしてください。";
+        document.getElementById("copyStatus").textContent =
+          "コピーに失敗しました。手動でコピーしてください。";
         console.error(err);
       });
-    });
-  </script>
-</body>
-</html>
