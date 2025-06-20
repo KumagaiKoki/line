@@ -68,13 +68,13 @@
   </style>
 </head>
 <body>
-  <h2>家賃入力</h2>
+  <h2>家賃</h2>
   <form id="rentForm">
-    <label>記入日</label>
+    <label>入力日</label>
     <input type="text" id="date" readonly>
     
-    <label>金額（円）</label>
-    <input type="number" id="amount" required placeholder="例: 75000">
+    <label>金額(円)</label>
+    <input type="number" inputmode="numeric" pattern="\d*" id="amount" required placeholder="例: 1234">
     
     <button type="submit">コピー</button>
     <div id="copyStatus"></div>
