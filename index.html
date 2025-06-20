@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <title></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-  <script src="./liff-config.js?ver=4"></script> <!-- キャッシュ防止 -->
   <style>
     :root {
       --main-color: #06c755;
@@ -112,10 +110,10 @@
 
       navigator.clipboard.writeText(message).then(() => {
         document.getElementById("copyStatus").textContent =
-          "コピーしました。チャット欄に貼り付けて送信してください。";
+          "コピーしました。\nチャット欄に貼り付けて送信してください。";
       }).catch(err => {
         document.getElementById("copyStatus").textContent =
-          "コピーに失敗しました。手動でコピーしてください。";
+          "コピーに失敗しました。";
         console.error(err);
       });
     });
