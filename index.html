@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>　</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <style>
+    :root {
+      --main-color: #06c755;
+      --background: #f9f9f9;
+      --input-border: #ccc;
+      --font: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background-color: var(--background);
+      padding: 24px;
+      color: #333;
+    }
+
+    label {
+      font-size: 14px;
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      box-sizing: border-box;
+      background-color: white;
+      color: #333;
+      font-family: var(--font);
+      appearance: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: var(--main-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:active {
+      opacity: 0.8;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .button-half {
+      flex: 1;
+    }
+
+    .gray-button {
+      background-color: #ccc;
+      color: #333;
+    }
+
+    #copyStatus {
+      margin-top: 16px;
+      font-size: 14px;
+      color: #28a745;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <form id="form">
+    <label for="category">種別</label>
+    <select id="category" required>
+      <option value="電気料金">電気</option>
+      <option value="ガス料金">ガス</option>
+      <option value="水道料金">水道</option>
+      <option value="家賃">家賃</option>
+      <option value="児童手当">児童手当</option>
+    </select>
+
+    <!-- 記入日（非表示） -->
+    <label for="date" class="hidden">記入日</label>
+    <input type="text" id="date" readonly class="hidden">
+
+    <label for="amount">料金 (円)</label>
+    <input
+      type="number"
+      inputmode="numeric"
+      pattern="\d*"
+      id="amount"
+      required
+      placeholder="例: 1234"
+    />
+
+    <button type="submit">データ入力</button>
+
+    <div class="button-row">
+      <button type="button" class="button-half gray-button" id="graphButton">グラフ出力</button>
+      <button type="button" class="button-half gray-button" id="historyButton">履歴表示</button>
+    </div>
+
+    <div id="copyStatus"></div>
+  </form>
+
+  <script>
+    function formatDateToYMD(dateObj) {
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const d = String(dateObj.getDate()).padStart(2, '0');
+      return `${y}/${m}/${d}`;
+    }
+
+    function copyToClipboard(message) {
+      navigator.clipboard.writeText(message).then(() => {
+        document.getElementById("copyStatus").innerHTML =
+          "コマンドをコピーしました。<br>チャット欄に貼り付けて送信してください。";
+      }).catch(err => {
+        document.getElementById("copyStatus").textContent =
+          "コピーに失敗しました。";
+        console.error(err);
+      });
+    }
+
+    window.onload = () => {
+      const dateInput = document.getElementById("date");
+      dateInput.value = formatDateToYMD(new Date());
+    };
+
+    document.getElementById("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const today = formatDateToYMD(new Date());
+      const amount = document.getElementById("amount").value;
+      const category = document.getElementById("category").value;
+      const message = `${today}, ${amount}, ${category}`;
+      copyToClipboard(message);
+    });
+
+    document.getElementById("graphButton").addEventListener("click", function () {
+      const category = document.getElementById("category").value;
+      copyToClipboard(`${category}, グラフ`);
+    });
+
+    document.getElementById("historyButton").addEventListener("click", function () {
+      const category = document.getElementById("category").value;
+      copyToClipboard(`${category}, 履歴`);
+    });
+  </script>
+</body>
+</html>
